@@ -1,0 +1,37 @@
+Q1. Fetch all users name from database.
+==> SELECT user_name FROM user_table;
+
+
+Q2. Fetch all tweets of user by user id most recent tweets first.
+==> SELECT * FROM tweet_table WHERE user_id = [user_id] ORDER BY date_time DESC;
+
+
+Q3. Fetch like count of particular tweet by tweet id.
+==> SELECT COUNT(like_id) AS like_count FROM like_table WHERE tweet_id = [tweet_id]
+
+
+Q4. Fetch retweet count of particular tweet by tweet id.
+==> SELECT COUNT(retweet_id) AS retweet_count FROM retweet_table WHERE original_tweet_id = [tweet_id];
+
+
+
+Q5. Fetch comment count of particular tweet by tweet id.
+==> SELECT COUNT(tweet_id) AS comment_count FROM tweet_table WHERE original_tweet_id = [tweet_id] AND tweet_type = 'comment';
+
+
+Q6. Fetch all user’s name who have retweeted particular tweet by tweet id.
+==> SELECT user_name FROM user_table WHERE user_id IN (SELECT user_id FROM retweet_table WHERE original_tweet_id = [tweet_id];
+
+
+
+Q7. Fetch all commented tweet’s content for particular tweet by tweet id.
+==> SELECT tweet FROM tweet_table WHERE original_tweet_id = [tweet_id] AND tweet_type = 'comment';
+
+
+Q8. Fetch user’s timeline (All tweets from users whom I am following with tweet content and user name who has tweeted it)
+
+==> SELECT tweet_table.tweet, user_table.user_name, tweet_table.date_time
+FROM tweet_table
+JOIN follow_table ON follow_table.followed_id = tweet_table.user_id
+WHERE follow_table.follow_id = [user_id]
+ORDER BY tweet_table.date_time DESC;
